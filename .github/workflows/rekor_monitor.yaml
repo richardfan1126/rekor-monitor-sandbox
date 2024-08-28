@@ -1,7 +1,7 @@
 name: Rekor log and identity monitor
 on:
-  schedule:
-    - cron: '0 * * * *' # every hour
+  # schedule:
+  #   - cron: '0 * * * *' # every hour
   workflow_dispatch:
 
 permissions: read-all
@@ -12,12 +12,20 @@ jobs:
       contents: read
       issues: write
       id-token: write
-    uses: sigstore/rekor-monitor/.github/workflows/reusable_monitoring.yaml@main
+    uses: richardfan1126/rekor-monitor/.github/workflows/reusable_monitoring.yml@main
     with:
       file_issue: true
       artifact_retention_days: 14
       identities: |
         certIdentities:
-          - certSubject: "https:\/\/github\.com\/richardfan1126\/how-high-is-my-salary-enclave-app\/.*"
+          - certSubject: "richardfan1126@gmail\\.com"
             issuers:
-              - https://token.actions.githubusercontent.com
+              - "https://github\\.com/login/oauth"
+
+  print_found_identities:
+    runs-on: ubuntu-latest
+    needs: run_consistency_proof
+    if: ${{ needs.run_consistency_proof.outputs.is-identity-found == 'true' }}
+    steps:
+      - name: Print found identities
+        run: echo "${{ needs.run_consistency_proof.outputs.found-identity-list }}"
