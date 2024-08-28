@@ -1,0 +1,23 @@
+name: Rekor log and identity monitor
+on:
+  schedule:
+    - cron: '0 * * * *' # every hour
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  run_consistency_proof:
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+    uses: sigstore/rekor-monitor/.github/workflows/reusable_monitoring.yaml@main
+    with:
+      file_issue: true
+      artifact_retention_days: 14
+      identities: |
+        certIdentities:
+          - certSubject: "https:\/\/github\.com\/richardfan1126\/how-high-is-my-salary-enclave-app\/.*"
+            issuers:
+              - https://token.actions.githubusercontent.com
