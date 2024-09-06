@@ -17,10 +17,8 @@ jobs:
       file_issue: true
       artifact_retention_days: 14
       identities: |
-        certIdentities:
-          - certSubject: richardfan1126@gmail\.c.{2}
-            issuers:
-              - https://github\.com/login/.*
+        subjects:
+          - richardfan1126@gmail\.c.{2}
 
   print_found_identities:
     runs-on: ubuntu-latest
