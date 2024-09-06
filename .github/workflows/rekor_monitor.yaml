@@ -18,9 +18,9 @@ jobs:
       artifact_retention_days: 14
       identities: |
         certIdentities:
-          - certSubject: "richardfan1126@gmail\\.com"
+          - certSubject: richardfan1126@gmail\.com
             issuers:
-              - "https://github\\.com/login/oauth"
+              - https://github\.com/login/oauth
 
   print_found_identities:
     runs-on: ubuntu-latest
